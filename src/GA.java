@@ -24,6 +24,8 @@ public class GA {
         * 
         * 
         */
+        //Tour crossover();
+        //mutate(tour);
       
 
         // Mutate the new population a bit to add some new genetic material
@@ -38,38 +40,65 @@ public class GA {
          */
 
         return newPopulation;
+        //tset
     }
 
     // Applies crossover to a set of parents and creates offspring : Davi's order 
     public static Tour crossover(Tour parent1, Tour parent2) {
         // Create new child tour
         Tour child = new Tour();
-
+        int limit1 = (int) (Math.random() * parent1.tourSize());
+        int limit2 = (int) (Math.random() * parent1.tourSize());
+        if(limit1>limit2)
+        {
+        	int temp=limit1;
+        	limit1=limit2;
+        	limit2=temp;
+        }
+        ArrayList<City> CitiesInsideLimits=new ArrayList<City>();
+        for(int i=limit1;i<=limit2;i++)
+        {
+        	CitiesInsideLimits.add(parent1.getCity(i));
+        }
         
-
-        //---------------------------------------------------------------------------------------------------------
-        // Crossover 2 parents using the Davi's Order
-       /*
-        * 
-        * 
-        * 
-        * Question 2 : To Complete: 
-        * 
-        * 
-        */
-        //----------------------------------------------------------------------------------------------------------
-   
-     
+        int i=0,j=0;
+        while(i<parent1.tourSize())
+        {
+        	if(i<limit1 || i>limit2)
+        	{
+        		if(!(CitiesInsideLimits.contains(parent2.getCity(j)))) 
+        		{
+        			child.setCity(i, parent2.getCity(j));
+        			i++;
+        		}
+        		j++;
+        	}
+        	else if(i>=limit1 && i<=limit2)
+        	{
+        		child.setCity(i, parent1.getCity(i));
+        		i++;
+        	}
+        }
         return child;
     }
 
     // Mutate a tour using swap mutation
     private static void mutate(Tour tour) {
-        /*
-         * 
-         * Question 3: To complete
-         * 
-         */
+        for(int i=0;i<tour.tourSize();i++)
+        {
+        	double random=(double) (Math.random() * 100);
+        	if(random<1.5)
+        	{
+        		int random2=(int)(Math.random() * tour.tourSize());
+        		while(random2==i)
+        		{
+        			random2=(int)(Math.random() * tour.tourSize());
+        		}
+        		City temp=tour.getCity(random2);
+        		tour.setCity(random2,tour.getCity(i));
+        		tour.setCity(i, temp);
+        	}
+        }
     }
 
     // Selects candidate tour for crossover using tournament method
