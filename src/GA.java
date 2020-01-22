@@ -24,8 +24,14 @@ public class GA {
         * 
         * 
         */
-        //Tour crossover();
-        //mutate(tour);
+        for(int i=0;i<(newPopulation.populationSize()/2)-1;i++)
+        {
+        	newPopulation.saveTour(i*2,crossover(pop.getTour(i*2),pop.getTour((i*2)+1)));
+        	newPopulation.saveTour((i*2)+1,crossover(pop.getTour((i*2)+1),pop.getTour(i*2)));
+        	mutate(newPopulation.getTour(i*2));
+        	mutate(newPopulation.getTour((i*2)+1));
+        }
+        
       
 
         // Mutate the new population a bit to add some new genetic material
@@ -40,7 +46,6 @@ public class GA {
          */
 
         return newPopulation;
-        //tset
     }
 
     // Applies crossover to a set of parents and creates offspring : Davi's order 
