@@ -23,6 +23,7 @@ public class TSP {
 	       */
 
 	        Population newPop=new Population(50,true);
+	        System.out.println("Fittest initial fitness : "+newPop.getFittest().getFitness());
 	        System.out.println("Fittest initial distance : "+newPop.getFittest().getDistance());
 	        // Evolve population for 100 generations
 	      /*
@@ -34,9 +35,10 @@ public class TSP {
 	        Population newPop2=new Population(50,false);
 	        for(int i=0;i<100;i++)
 	        {
-	        	newPop2=GA.evolvePopulation(newPop);
+	        	newPop=GA.evolvePopulation(newPop);
 	        }
-	        System.out.println("Fittest final distance : "+newPop2.getFittest().getDistance());
+	        System.out.println("Fittest final fitness : "+newPop.getFittest().getFitness());
+	        System.out.println("Fittest final distance : "+newPop.getFittest().getDistance());
 	        
 	        // Print final results
 		/*

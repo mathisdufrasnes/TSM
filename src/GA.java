@@ -24,13 +24,24 @@ public class GA {
         * 
         * 
         */
-        for(int i=0;i<(newPopulation.populationSize()/2)-1;i++)
+        for(int i=0;i<(newPopulation.populationSize()/2);i++)
+        {
+	        Tour t=tournamentSelection(pop);
+	    	Tour t2=tournamentSelection(pop);
+	    	newPopulation.saveTour(i*2,crossover(t,t2));
+	    	newPopulation.saveTour((i*2)+1,crossover(t2,t));
+	    	mutate(newPopulation.getTour(i*2));
+	    	mutate(newPopulation.getTour((i*2)+1));
+	    	System.out.println("Fitness "+i*2+" : "+newPopulation.getTour(i*2).getFitness());
+	    	System.out.println("Fitness "+((i*2)+1)+" : "+newPopulation.getTour((i*2)+1).getFitness());
+        }
+        /*for(int i=0;i<(newPopulation.populationSize()/2)-1;i++)
         {
         	newPopulation.saveTour(i*2,crossover(pop.getTour(i*2),pop.getTour((i*2)+1)));
         	newPopulation.saveTour((i*2)+1,crossover(pop.getTour((i*2)+1),pop.getTour(i*2)));
         	mutate(newPopulation.getTour(i*2));
         	mutate(newPopulation.getTour((i*2)+1));
-        }
+        }*/
         
       
 
@@ -115,8 +126,9 @@ public class GA {
         for (int i = 0; i < tournamentSize; i++) {
             int randomId = (int) (Math.random() * pop.populationSize());
             tournament.saveTour(i, pop.getTour(randomId));
+           
         }
-        // Get the fittest tour
+             // Get the fittest tour
         Tour fittest = tournament.getFittest();
         return fittest;
     }
