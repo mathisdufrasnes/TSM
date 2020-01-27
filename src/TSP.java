@@ -32,14 +32,22 @@ public class TSP {
 	       * 
 	       * 
 	       */
-	        Population newPop2=new Population(50,false);
-	        for(int i=0;i<100;i++)
+	        Population newPop2=newPop;
+	        for(int i=0;i<5000;i++)
 	        {
-	        	newPop=GA.evolvePopulation(newPop);
+	        	newPop2=GA.evolvePopulation(newPop2);
 	        }
-	        System.out.println("Fittest final fitness : "+newPop.getFittest().getFitness());
-	        System.out.println("Fittest final distance : "+newPop.getFittest().getDistance());
+	        System.out.println("Fittest final fitness : "+newPop2.getFittest().getFitness());
+	        System.out.println("Fittest final distance : "+newPop2.getFittest().getDistance());
 	        
+	        
+	        Population newPop3=newPop;
+	        for(int i=0;i<500;i++)
+	        {
+	        	newPop3=GA.evolvePopulationRWS(newPop3);
+	        }
+	        System.out.println("Fittest final RWS fitness : "+newPop3.getFittest().getFitness());
+	        System.out.println("Fittest final RWS distance : "+newPop3.getFittest().getDistance());
 	        // Print final results
 		/*
 		 * 

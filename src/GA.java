@@ -9,21 +9,6 @@ public class GA {
     // Evolves a population over one generation
     public static Population evolvePopulation(Population pop) {
         Population newPopulation = new Population(pop.populationSize(), false);
-
-       
-        // Crossover population
-        // Loop over the new population's size and create individuals from
-        // Current population (select parents, crossover them, add child to population
-       /*
-        * 
-        * Question 1-a: To Complete
-        * 
-        * 
-        * 
-        * 
-        * 
-        * 
-        */
         for(int i=0;i<(newPopulation.populationSize()/2);i++)
         {
 	        Tour t=tournamentSelection(pop);
@@ -32,8 +17,6 @@ public class GA {
 	    	newPopulation.saveTour((i*2)+1,crossover(t2,t));
 	    	mutate(newPopulation.getTour(i*2));
 	    	mutate(newPopulation.getTour((i*2)+1));
-	    	System.out.println("Fitness "+i*2+" : "+newPopulation.getTour(i*2).getFitness());
-	    	System.out.println("Fitness "+((i*2)+1)+" : "+newPopulation.getTour((i*2)+1).getFitness());
         }
         /*for(int i=0;i<(newPopulation.populationSize()/2)-1;i++)
         {
@@ -42,23 +25,28 @@ public class GA {
         	mutate(newPopulation.getTour(i*2));
         	mutate(newPopulation.getTour((i*2)+1));
         }*/
-        
-      
-
-        // Mutate the new population a bit to add some new genetic material
-        /*
-         * 
-         * 
-         * 
-         * Question 1-b: Mutate new generation 
-         * 
-         * 
-         * 
-         */
-
         return newPopulation;
     }
-
+    public static Population evolvePopulationRWS(Population pop) {
+        Population newPopulation = new Population(pop.populationSize(), false);
+        for(int i=0;i<(newPopulation.populationSize()/2);i++)
+        {
+	        Tour t=RWS(pop);
+	    	Tour t2=RWS(pop);
+	    	newPopulation.saveTour(i*2,crossover(t,t2));
+	    	newPopulation.saveTour((i*2)+1,crossover(t2,t));
+	    	mutate(newPopulation.getTour(i*2));
+	    	mutate(newPopulation.getTour((i*2)+1));
+        }
+        /*for(int i=0;i<(newPopulation.populationSize()/2)-1;i++)
+        {
+        	newPopulation.saveTour(i*2,crossover(pop.getTour(i*2),pop.getTour((i*2)+1)));
+        	newPopulation.saveTour((i*2)+1,crossover(pop.getTour((i*2)+1),pop.getTour(i*2)));
+        	mutate(newPopulation.getTour(i*2));
+        	mutate(newPopulation.getTour((i*2)+1));
+        }*/
+        return newPopulation;
+    }
     // Applies crossover to a set of parents and creates offspring : Davi's order 
     public static Tour crossover(Tour parent1, Tour parent2) {
         // Create new child tour
@@ -135,22 +123,27 @@ public class GA {
     
     //Select candidate tour for crossover using a RWS 
     private static Tour RWS(Population pop) {
-    	ArrayList<Integer> fitness_share=new ArrayList<Integer>();
+    	ArrayList<Double> fitness_share=new ArrayList<Double>();
+    	double sum=0;
     	Tour candidate= new Tour();
     	//Calculate sum of fitness values of all individuals in the population
-    	
+    	for(int i=0;i<pop.populationSize();i++) {
+    		sum=sum+pop.getTour(i).getFitness();
+    	}
+    	for(int i=0;i<pop.populationSize();i++) {
+    		fitness_share.add((pop.getTour(i).getFitness())/sum);
+    	}
     	//Calculate and Save fitness share for all individuals in population
-    	
-    	//Select individual based on its fitness share value and random generated value between 0 and 1 
-    	
-    	//
-   
-      /*
-       * 
-       * Question 5: To complete 
-       * 
-       * 
-       */
+    	double randomId = Math.random();
+    	double cumul=fitness_share.get(0);
+    	int i=0;
+    	while(randomId>cumul)
+    	{
+    		i++;
+    		cumul=cumul+fitness_share.get(i);
+    	}
+    	//Select individual based on its fitness share value and random generated value between 0 and 1
+    	candidate=pop.getTour(i);
     	return candidate;
     }
 
